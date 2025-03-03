@@ -1,39 +1,26 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const connectDB = require("./config/db"); // Import the DB connection function
+
 const app = express();
-const PORT = process.env.PORT;
-const userRoutes = require("./routes/userRoutes");
-// const profileRoutes = require("./routes/profileRoutes");
-const connectDB = require("./config/db"); // Import the function
+const PORT = process.env.PORT || 3000;
 
+// Connect to MongoDB
+connectDB();
 
-connectDB(); // Connect to MongoDB
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const userRoutes = require("./routes/userRoutes");
 app.use("/users", userRoutes);
-// app.use("/profile", profileRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Default route for testing
+app.get("/", (req, res) => {
+  res.send("Hello from Vercel!");
 });
 
-// // Export the Express app for Vercel
-// module.exports = app;
-
-// const express = require("express");
-
-// const app = express();
-// const PORT = process.env.PORT || 3000;
-
-// // Middleware
-// app.use(express.json());
-
-// // Sample route
-// app.get("/", (req, res) => {
-//   res.send("Hello from Vercel!");
-// });
-
-// Export the Express app
+// Export the app for Vercel
 module.exports = app;
