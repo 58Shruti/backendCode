@@ -18,3 +18,6 @@ app.use("/users", userRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// Export the Express app for Vercel
+module.exports = app;
